@@ -77,8 +77,10 @@ public class OAuth2Configuration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources)
             throws Exception {
-        resources.tokenServices(defaultTokenServices()).authenticationManager(
-                authenticationManager());
+        resources
+            .tokenServices(defaultTokenServices())
+            .authenticationManager(authenticationManager())
+            .authenticationEntryPoint(customEntryPoint());
     }
 
     @Bean
@@ -109,6 +111,7 @@ public class OAuth2Configuration extends ResourceServerConfigurerAdapter {
         OAuth2AuthenticationEntryPoint oAuth2AuthenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
         oAuth2AuthenticationEntryPoint.setRealmName("springsec/client");
         oAuth2AuthenticationEntryPoint.setTypeName("Basic");
+        oAuth2AuthenticationEntryPoint.setExceptionRenderer(customExceptionRenderer);
         return oAuth2AuthenticationEntryPoint;
     }
 
